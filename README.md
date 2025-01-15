@@ -9,10 +9,11 @@ Promptify is a command-line utility that transforms plaintext directories into a
 
 **Example Usage:**
 
-````bash
+```bash
+
 promptify -d /path/to/directory -p \"This prompt will be applied to the end of the formatted text.\"
+
 ```
-````
 
 - `-d /path/to/directory`: Specifies the directory to process.
 - `-p \"This prompt will be applied to the end of the formatted text.\"`: Adds a prompt to the formatted text.
@@ -28,3 +29,7 @@ Feel free to contribute to Promptify by reporting bugs,suggesting improvements, 
 
 **License:**
 This project is licensed under the MIT License - see the LICENSE file for details.
+
+```
+
+```
