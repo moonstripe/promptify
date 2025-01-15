@@ -7,6 +7,11 @@ Promptify is a command-line utility that transforms plaintext directories into a
 - **Plaintext File Identification:** It intelligently identifies plaintext files based on file extensions (.html.twig) and MIME type analysis using the `mime_guess` crate. Supports JSON files as well.
 - **LLM-Friendly Formatting:** Files are formatted with code blocks for clear separation and structure, making them readily consumable by LLMs.
 
+**Installation**
+
+1. Clone the repository: `git clone https://github.com/moonstripe/promptify.git`
+2. Build and install the utility: `cd promptify && cargo install --path .`
+
 **Example Usage:**
 
 ```bash
