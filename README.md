@@ -16,17 +16,18 @@ Promptify is a command-line utility that transforms plaintext directories into a
 
 ```bash
 
-promptify -d /path/to/directory -p \"This prompt will be applied to the end of the formatted text.\"
+promptify -d /path/to/directory -p \"This prompt will be applied to the end of the formatted text.\" -e dir_to_exclude,*/**/glob
 
 ```
 
 - `-d /path/to/directory`: Specifies the directory to process.
-- `-p \"This prompt will be applied to the end of the formatted text.\"`: Adds a prompt to the formatted text.
+- `-p \"This prompt will be applied to the end of the formatted text.\"`: Optionally adds a prompt to the formatted text.
+- `-e /dirs,*/to/**,exclude/*`: Optionally specifies the directories to exclude.
 
 **How it Works:**
 
 1. Promptify scans the specified directory and its subdirectories.
-2. It identifies plaintext files (`.html.twig` and MIME type `text/plain`) and JSON files.
+2. It identifies plaintext files (common programming language extensions, `.html.twig` and MIME type `text/plain`) and JSON files.
 3. Each file's content is read and formatted within code blocks, along with an optional prompt if requested.
 
 **Contributing:**
