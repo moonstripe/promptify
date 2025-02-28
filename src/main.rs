@@ -63,6 +63,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .map(|e| {
             e.split(',')
                 .filter_map(|pattern| {
+                    println!("pattern {}", pattern);
                     Pattern::new(pattern.trim())
                         .map_err(|err| {
                             eprintln!("Warning: Invalid glob pattern '{}': {}", pattern, err);
@@ -129,7 +130,7 @@ fn should_exclude(path: &Path, exclude_patterns: &[Pattern]) -> bool {
     let path_str = path.to_string_lossy();
     exclude_patterns
         .iter()
-        .any(|pattern| pattern.matches(&path_str))
+        .any(|pattern| pattern.matches(&path_str.replace("./", "")))
 }
 
 fn build_tree(
