@@ -63,7 +63,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         .map(|e| {
             e.split(',')
                 .filter_map(|pattern| {
-                    println!("pattern {}", pattern);
                     Pattern::new(pattern.trim())
                         .map_err(|err| {
                             eprintln!("Warning: Invalid glob pattern '{}': {}", pattern, err);
@@ -91,12 +90,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 fn is_plain_text_file(path: &Path) -> bool {
     // List of file extensions we want to explicitly consider as plain text
     const PLAIN_TEXT_EXTENSIONS: &[&str] = &[
-        // Web development
+        // web development
         "ts", "tsx", "js", "jsx", "json", "html", "htm", "css", "scss", "sass",
-        // Template files
-        "twig", "ejs", "hbs", "vue", "svelte", // Config files
-        "yml", "yaml", "toml", "ini", "env", // Documentation
-        "md", "markdown", "txt", "rst", // Other programming languages
+        // template files
+        "twig", "ejs", "hbs", "vue", "svelte", // config files
+        "yml", "yaml", "toml", "ini", "env", // documentation
+        "md", "markdown", "txt", "rst", // other programming languages
         "py", "rb", "php", "java", "go", "rs", "c", "cpp", "h", "hpp", "sh", "bash",
     ];
 
@@ -204,10 +203,54 @@ fn list_dir_recursive(path: &Path, exclude_patterns: &[Pattern]) -> io::Result<(
                         if entry_path.is_dir() {
                             list_dir_recursive(&entry_path, exclude_patterns)?;
                         } else if is_plain_text_file(&entry_path) {
-                            if let Some(entry_str) = entry_path.to_str() {
+                            if let Some(_entry_str) = entry_path.to_str() {
                                 match read_file(&entry_path) {
                                     Ok(content) => {
-                                        println!("```{}", entry_str);
+                                        let lang = match entry_path
+                                            .extension()
+                                            .and_then(|ext| ext.to_str())
+                                        {
+                                            // Web development
+                                            Some("ts") | Some("tsx") => "typescript",
+                                            Some("js") | Some("jsx") => "javascript",
+                                            Some("json") => "json",
+                                            Some("html") | Some("htm") => "html",
+                                            Some("css") => "css",
+                                            Some("scss") | Some("sass") => "scss",
+
+                                            // Template files
+                                            Some("twig") => "twig",
+                                            Some("ejs") => "ejs",
+                                            Some("hbs") => "handlebars",
+                                            Some("vue") => "vue",
+                                            Some("svelte") => "svelte",
+
+                                            // Config files
+                                            Some("yml") | Some("yaml") => "yaml",
+                                            Some("toml") => "toml",
+                                            Some("ini") => "ini",
+                                            Some("env") => "dotenv",
+
+                                            // Documentation
+                                            Some("md") | Some("markdown") => "markdown",
+                                            Some("txt") => "",
+                                            Some("rst") => "restructuredtext",
+
+                                            // Other programming languages
+                                            Some("py") => "python",
+                                            Some("rb") => "ruby",
+                                            Some("php") => "php",
+                                            Some("java") => "java",
+                                            Some("go") => "go",
+                                            Some("rs") => "rust",
+                                            Some("c") => "c",
+                                            Some("cpp") => "cpp",
+                                            Some("h") | Some("hpp") => "cpp",
+                                            Some("sh") | Some("bash") => "bash",
+
+                                            _ => "",
+                                        };
+                                        println!("```{}", lang);
                                         println!("{}", content);
                                         println!("```");
                                         println!();
