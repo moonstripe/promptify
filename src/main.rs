@@ -8,15 +8,13 @@ use std::path::Path;
 #[derive(Clone, Debug)]
 struct TreeItem {
     name: String,
-    is_dir: bool,
     children: Vec<TreeItem>,
 }
 
 impl TreeItem {
-    fn new(name: &str, is_dir: bool) -> Self {
+    fn new(name: &str) -> Self {
         TreeItem {
             name: name.to_string(),
-            is_dir,
             children: vec![],
         }
     }
@@ -137,16 +135,14 @@ fn build_tree(
     exclude_patterns: &[Pattern],
 ) -> Result<TreeItem, Box<dyn std::error::Error>> {
     let metadata = fs::metadata(path)?;
-    let is_dir = metadata.is_dir();
     let mut root = TreeItem::new(
         path.file_name()
             .unwrap_or(path.as_os_str())
             .to_str()
             .unwrap(),
-        is_dir,
     );
 
-    if is_dir && !should_exclude(path, exclude_patterns) {
+    if metadata.is_dir() && !should_exclude(path, exclude_patterns) {
         let entries = fs::read_dir(path)?
             .filter_map(Result::ok)
             .collect::<Vec<_>>();
