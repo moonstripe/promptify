@@ -2,6 +2,8 @@
 name = "promptify"
 version = "0.1.3"
 edition = "2021"
+description = "A plaintext directory formatting tool for interacting with LLMs on the command line."
+license = "MIT"
 
 [dependencies]
 clap = "4.5.26"
