@@ -71,14 +71,15 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
                 .collect()
         })
         .unwrap_or_default();
-
+    println!("### File Tree:");
     // Print the directory tree
     print_tree(directory.as_str(), &exclude_patterns)?;
-
+    println!("\n\n### Files:");
     // Process the files
     list_dir_recursive(Path::new(directory), &exclude_patterns)?;
 
     if let Some(prompt) = matches.get_one::<String>("prompt") {
+        println!("\n\n### Prompt:");
         println!("{}", prompt);
     }
 
