@@ -247,8 +247,9 @@ fn list_dir_recursive(path: &Path, exclude_patterns: &[Pattern]) -> io::Result<(
 
                                             _ => "",
                                         };
+
+                                        println!("- {:?}:", entry_path);
                                         println!("```{}", lang);
-                                        println!("// filename: {:?}", entry_path);
                                         println!("{}", content);
                                         println!("```");
                                         println!();
